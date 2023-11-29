@@ -47,9 +47,10 @@ export default {
             e.preventDefault()
             const data = {
                 username: this.username,
-                email: this.email,
-                password: this.password,
+                Email: this.email,
+                Passport: this.password,
             }   
+            console.log(data);
             this.$store
             .dispatch('login',data)
             .then(user => {

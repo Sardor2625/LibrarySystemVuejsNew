@@ -62,6 +62,8 @@ const actions = {
   login(context, user){
   return new Promise((resolve, reject) => {
     context.commit('loginStart')
+    console.log("Promise ")
+    console.log(user)
     AuthServise.login(user)
     .then(response => {
       context.commit("loginSuccess", response.data.user)
