@@ -1,6 +1,6 @@
 <template >
   <div>
-    <div class="container">
+    <div class="">
       <Navbar />
       <RouterView />
     </div>
@@ -15,6 +15,14 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+:root {
+	--primary: #FFFFFF;
+	--primary-alt: #FFFFFF;
+	--grey: #FFFFFF;
+	--dark: #4499D7;
+	--dark-alt: #2970a3;
+	--light: #f1f5f9;
+	--sidebar-width: 300px;
+}
 </style>
