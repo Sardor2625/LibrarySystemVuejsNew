@@ -16,7 +16,7 @@
 				<span class="material-icons">home</span>
 				<span class="text">Admin</span>
 			</router-link>
-			<router-link to="/Books" class="button">
+			<router-link to="/BooksView" class="button">
 				<span class="material-icons">description</span>
 				<span class="text">Books</span>
 			</router-link>
@@ -61,8 +61,8 @@ const ToggleMenu = () => {
 
 
 aside {
-	position: relative;
-	margin-top: -24px;
+	position: fixed;
+	// margin-top: -24px;
 	display: flex;
 	
 	flex-direction: column;

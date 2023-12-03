@@ -4,18 +4,22 @@
       <Navbar />
       <RouterView />
     </div>
+	  <!-- <Sidebar/> -->
   </div>
 </template>
 <script>
 import { Navbar } from '@/components'
+// import { Sidebar } from '@/components'
 import { RouterView } from "vue-router"
 
 export default {
-  components: { Navbar },
+  components: { Navbar},
+//   components: { Sidebar},
 }
 </script>
 
 <style lang="scss">
+
 :root {
 	--primary: #FFFFFF;
 	--primary-alt: #FFFFFF;
@@ -25,4 +29,12 @@ export default {
 	--light: #f1f5f9;
 	--sidebar-width: 300px;
 }
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Fira sans', sans-serif;
+}
+
 </style>
