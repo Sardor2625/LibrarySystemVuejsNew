@@ -4,12 +4,10 @@
       <Navbar />
       <RouterView />
     </div>
-	  <!-- <Sidebar/> -->
   </div>
 </template>
 <script>
 import { Navbar } from '@/components'
-// import { Sidebar } from '@/components'
 import { RouterView } from "vue-router"
 
 export default {
