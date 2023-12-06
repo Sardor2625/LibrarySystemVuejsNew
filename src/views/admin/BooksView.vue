@@ -5,8 +5,8 @@
         <h4>Books</h4>
         <div class="search-container">
           <input type="text" v-model="searchQuery" placeholder="Search...">
-          <button @click="search">Search</button>
-          <button @click="resetSearch">Reset</button>
+          <button class="btn btn-primary" @click="search">Search</button>
+          <button class="btn btn-danger" @click="resetSearch">Reset</button>
         </div>
       </div>
       <div class="card-body">
@@ -43,11 +43,11 @@
               </td>
               <td>{{ book.copiesOwned }}</td>
               <td>
-                <button @click="editBook(book)">
+                <button class="btn btn-primary" @click="editBook(book)">
                   <template v-if="!book.isEditing">Edit</template>
                   <template v-else>Save</template>
                 </button>
-                <button @click="deleteBook(book.id)">Delete</button>
+                <button class="btn btn-danger" @click="deleteBook(book.id)">Delete</button>
               </td>
             </tr>
           </tbody>
