@@ -2,18 +2,13 @@
   <div class="container">
     <div class="card">
       <div class="card-header">
-        <h1>Books</h1>
-        <input type="text" v-model="searchQuery" placeholder="Search...">
-        <select v-model="selectedCategory" @change="filterBooks">
-          <option value="">All Categories</option>
-          <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
-        </select>
-        <input type="text" v-model="selectedLanguage" placeholder="Language" @input="filterBooks">
-        <input type="text" v-model="selectedPublicationYear" placeholder="Publication Year" @input="filterBooks">
-        <input type="text" v-model="searchByAuthor" placeholder="Author" @input="filterBooks">
-        <input type="number" v-model="selectedCopiesOwned" placeholder="Copies Owned" @input="filterBooks">
+        <h4>Books</h4>
+        <div class="search-container">
+          <input type="text" v-model="searchQuery" placeholder="Search...">
+          <button @click="search">Search</button>
+          <button @click="resetSearch">Reset</button>
+        </div>
       </div>
-      
       <div class="card-body">
         <table class="table table-bordered">
           <thead>
@@ -27,18 +22,38 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="filteredBooks.length > 0">
             <tr v-for="(book, index) in filteredBooks" :key="index">
               <td>{{ book.id }}</td>
-              <td>{{ book.title }}</td>
-              <td>{{ book.publicationYear }}</td>
-              <td>{{ book.language }}</td>
-              <td>{{ book.categoryId }}</td>
+              <td>
+                <template v-if="!book.isEditing">{{ book.title }}</template>
+                <template v-else><input v-model="book.title" /></template>
+              </td>
+              <td>
+                <template v-if="!book.isEditing">{{ book.publicationYear }}</template>
+                <template v-else><input v-model="book.publicationYear" /></template>
+              </td>
+              <td>
+                <template v-if="!book.isEditing">{{ book.language }}</template>
+                <template v-else><input v-model="book.language" /></template>
+              </td>
+              <td>
+                <template v-if="!book.isEditing">{{ book.categoryId }}</template>
+                <template v-else><input v-model="book.categoryId" /></template>
+              </td>
               <td>{{ book.copiesOwned }}</td>
               <td>
-                <button @click="editBook(book)">Edit</button>
+                <button @click="editBook(book)">
+                  <template v-if="!book.isEditing">Edit</template>
+                  <template v-else>Save</template>
+                </button>
                 <button @click="deleteBook(book.id)">Delete</button>
               </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="7">No matching books found.</td>
             </tr>
           </tbody>
         </table>
@@ -48,63 +63,76 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
 
 export default {
-  name: 'books',
+  name: 'Books',
   data() {
     return {
       books: [],
-      categories: [], // Assuming you have categories data
       searchQuery: '',
-      selectedCategory: '',
-      selectedLanguage: '',
-      selectedPublicationYear: '',
-      searchByAuthor: '',
-      selectedCopiesOwned: null,
-    }
+      filteredBooks: [],
+    };
   },
   mounted() {
-    this.getBooks()
-    // Fetch categories if needed
+    this.getBooks();
   },
   methods: {
     getBooks() {
       axios.get("http://127.0.0.1:5208/api/Book")
         .then(res => {
-          this.books = res.data;
-          console.log(res.data)
-        })
-    },
-    filterBooks() {
-      this.filteredBooks = this.books.filter(book => {
-        const matchesCategory = !this.selectedCategory || book.categoryId === parseInt(this.selectedCategory);
-        const matchesLanguage = !this.selectedLanguage || book.language.toLowerCase().includes(this.selectedLanguage.toLowerCase());
-        const matchesPublicationYear = !this.selectedPublicationYear || book.publicationYear.toString() === this.selectedPublicationYear;
-        const matchesAuthor = !this.searchByAuthor || book.author.toLowerCase().includes(this.searchByAuthor.toLowerCase());
-        const matchesCopiesOwned = !this.selectedCopiesOwned || book.copiesOwned === parseInt(this.selectedCopiesOwned);
-
-        return matchesCategory && matchesLanguage && matchesPublicationYear && matchesAuthor && matchesCopiesOwned;
-      });
-    },
-    
-    editBook(book) {
-      // Implement logic to handle editing a book
-      axios.put(`api/books/${book.id}`, book)
-        .then(response => {
-          console.log('Book updated:', response.data);
-          // Perform any necessary actions after successful update
+          this.books = res.data.map(book => ({ ...book, isEditing: false }));
+          this.filteredBooks = res.data;
         })
         .catch(error => {
-          console.error('Error updating book:', error);
+          console.error('Error fetching books:', error);
         });
     },
+    search() {
+      const query = this.searchQuery.toLowerCase().trim();
+      if (query === '') {
+        this.filteredBooks = this.books;
+        return;
+      }
+
+      this.filteredBooks = this.books.filter(book =>
+        book.title.toLowerCase().includes(query) ||
+        book.publicationYear.toString().includes(query) ||
+        book.language.toLowerCase().includes(query) ||
+        book.categoryId.toString().includes(query) ||
+        book.copiesOwned.toString().includes(query)
+      );
+    },
+    resetSearch() {
+      this.searchQuery = '';
+      this.filteredBooks = this.books;
+    },
+    editBook(book) {
+  if (book.isEditing) {
+    axios.put(`http://127.0.0.1:5208/api/Book/${book.id}`, {
+      title: book.title,
+      publicationYear: book.publicationYear,
+      language: book.language,
+      categoryId: book.categoryId,
+      copiesOwned: book.copiesOwned
+     
+    })
+      .then(response => {
+        console.log('Book updated successfully:', response.data);
+        book.isEditing = false;
+      })
+      .catch(error => {
+        console.error('Error updating book:', error);
+      });
+  } else {
+    book.isEditing = true; 
+  }
+},
     deleteBook(bookId) {
-      // Implement logic to handle deleting a book
-      axios.delete(`api/books/${bookId}`)
-        .then(response => {
-          console.log('Book deleted:', response.data);
-          // Perform any necessary actions after successful deletion
+      axios.delete(`http://127.0.0.1:5208/api/Book/${bookId}`)
+        .then(() => {
+          this.books = this.books.filter(book => book.id !== bookId);
+          this.filteredBooks = this.filteredBooks.filter(book => book.id !== bookId);
         })
         .catch(error => {
           console.error('Error deleting book:', error);
@@ -113,7 +141,3 @@ export default {
   },
 };
 </script>
-
-<style>
-/* Add any custom styles here */
-</style>

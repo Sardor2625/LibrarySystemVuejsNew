@@ -12,12 +12,17 @@
 						<label for="exampleFormControlInput1"></label>
 						<input type="text" v-model="uploadData.Title" class="form-control" placeholder="Title">
 					</div>
+					<div class="form-group">
+						<label for="exampleFormControlInput1"></label>
+						<input type="text" v-model="uploadData.Author" class="form-control" placeholder="Author">
+					</div>
 					<form>
 						<div class="row">
 							<div class="col">
 								<input type="text" v-model="uploadData.Publicationyear" class="form-control"
 									placeholder="Publication Year">
 							</div>
+							
 <!--							<div class="col">-->
 <!--								<input type="date" v-model="uploadData.date" class="form-control" placeholder="MM.DD.YYYY">-->
 <!--							</div>-->
@@ -64,6 +69,7 @@ export default {
 			count: 0,
 			uploadData: {
         title: '',
+		Author: '',
         publicationYear: '',
         language: 'Langauge',
         categoryId: 1
@@ -85,6 +91,7 @@ export default {
 		clear(e) {
 			this.uploadData = {
 				title: '',
+				Author: '',
 				publicationYear: '',
         language: 'Langauge',
 				categoryId: 1
