@@ -13,30 +13,25 @@
 		<h3>Admin</h3>
 		<div class="menu">
 			<router-link to="/" class="button">
-				<span class="material-icons">home</span>
+				<span class="material-icons">person</span>
 				<span class="text">Admin</span>
 			</router-link>
-			<router-link to="/BooksView" class="button">
-				<span class="material-icons">description</span>
-				<span class="text">Books</span>
+			<router-link to="/contact" class="button">
+				<span class="material-icons">book</span>
+				<span class="text">Orderedbooks</span>
+			</router-link>	
+			<router-link to="/uploadbooks" class="button">
+				<span class="material-icons">upload</span>
+				<span class="text">Uploadbooks</span>
 			</router-link>
-			<router-link to="/team" class="button">
+			<router-link to="/managestudents" class="button">
 				<span class="material-icons">group</span>
 				<span class="text">Managethestudents</span>
 			</router-link>
-			<router-link to="/contact" class="button">
-				<span class="material-icons">email</span>
-				<span class="text">Orderedbooks</span>
+			<router-link to="/books" class="button">
+				<span class="material-icons">description</span>
+				<span class="text">Books</span>
 			</router-link>
-            <router-link to="/contact" class="button">
-				<span class="material-icons">email</span>
-				<span class="text">Uploadbooks</span>
-			</router-link>
-		</div>
-
-		<div class="flex"></div>
-		
-		<div class="menu">
 			<router-link to="/settings" class="button">
 				<span class="material-icons">settings</span>
 				<span class="text">Settings</span>
@@ -62,14 +57,11 @@ const ToggleMenu = () => {
 
 aside {
 	position: fixed;
-	// margin-top: -24px;
+	margin-top: -24px;
 	display: flex;
-	
 	flex-direction: column;
-
 	background-color: var(--dark);
 	color: var(--light);
-
 	width: calc(2rem + 32px);
 	overflow: hidden;
 	min-height: 100vh;
