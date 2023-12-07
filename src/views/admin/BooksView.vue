@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container books_section">
     <div class="card">
       <div class="card-header">
         <h4>Books</h4>
@@ -141,3 +141,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.books_section{
+ padding-left: 200px;
+}
+
+</style>

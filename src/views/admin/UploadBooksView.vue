@@ -1,9 +1,8 @@
 <template>
 	<main id="Admin-page">
-		<div class="container mt-100">
-			<div class="border border-dark rounded mt-100">
-
-				<div>
+		<div class="container upload_books_page">
+			<div class="border border-dark rounded uploadbookmain_div">
+				<div class="upload_books_upload">
 					<input type="file" accept="image/jpeg" @change=uploadImage id="uploadImage">
 					<img :src="previewImage" class="uploading-image" />
 				</div>
@@ -38,10 +37,12 @@
 						<option disabled>Category</option>
 						<option>Horror</option>
 					</select>
-					<div id="counters">
+					<div id="counters" class="cunters_div">
 						<h1> {{ count }}</h1>
+						<div class="counters_icon">
 						<span @click="count += 1;" class="material-icons">expand_less</span>
 						<span @click="count = count == 0 ? 0 : count - 1" class="material-icons">expand_more</span>
+					</div>
 					</div>
 					<div class="button_div col align-self-end pt-5">
 						<button type="button" class="btn btn-primary" @click=upload>Upload</button>
@@ -169,4 +170,28 @@ img {
 	width: 480px;
 	height: 500px;
 }
+
+.upload_books_page{
+	margin-left: 300px;
+	
+}
+.uploadbookmain_div{
+	width: 1100px;
+}
+.upload_books_upload{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.cunters_div{
+	display: flex;
+}
+
+.counters_icon{
+	display: flex;
+	flex-direction: column;
+	margin-left: 10px;
+}
+
 </style>

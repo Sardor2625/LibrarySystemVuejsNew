@@ -1,159 +1,143 @@
 <template>
-	<main>
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h4>
-                    Manage The Students
-                </h4>
-               
-            </div>
-            <div class="card-body ">
-
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Student id</th>
-                            <th>Student Info</th>
-                            <th>Title of the book</th>
-                            <th>Duraction</th>
-                            <th>Status
-								<!-- <div class="btn-group" role="group" id="toolBtns">
-  <button class="btn" type="button" @click="activeBtn = 'btn1'" :class="{active: activeBtn === 'btn1' }">Btn1</button>
-  <button class="btn" type="button" @click="activeBtn = 'btn2'" :class="{active: activeBtn === 'btn2' }">Btn2</button>
-  <button class="btn" type="button" @click="activeBtn = 'btn3'" :class="{active: activeBtn === 'btn3' }">Btn3</button></div>
-</div> -->
-							</th>
-							
-                        </tr>
-                    </thead>
-                    <tbody >
-                        <tr v-for="(student, index) in this.students" :key="index">
-                            <td>{{ student.id }}</td>
-                            <td>{{ student.info }}</td>
-                            <td>{{ student.bookTitle }}</td>
-                            <td>{{ student.duration }}</td>
-                            <td>{{ student.status }}</td>
-                        </tr>
-                    </tbody>
-                   
-                </table>
-            </div>
-        </div>
+  <div class="container books_section">
+    <div class="card">
+      <div class="card-header">
+        <h4>Managestudents</h4>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Stident ID</th>
+              <th>Student Info</th>
+              <th>Title of the Book</th>
+              <th>Duration</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody v-if="filteredBooks.length > 0">
+            <tr v-for="(book, index) in filteredBooks" :key="index">
+              <td>{{ book.id }}</td>
+              <td>
+                <template v-if="!book.isEditing">{{ book.title }}</template>
+                <template v-else><input v-model="book.title" /></template>
+              </td>
+              <td>
+                <template v-if="!book.isEditing">{{ book.publicationYear }}</template>
+                <template v-else><input v-model="book.publicationYear" /></template>
+              </td>
+              <td>
+                <template v-if="!book.isEditing">{{ book.language }}</template>
+                <template v-else><input v-model="book.language" /></template>
+              </td>
+              <td>
+                <template v-if="!book.isEditing">{{ book.categoryId }}</template>
+                <template v-else><input v-model="book.categoryId" /></template>
+              </td>
+              <td>{{ book.copiesOwned }}</td>
+              <td>
+                <button class="btn btn-primary" @click="editBook(book)">
+                  <template v-if="!book.isEditing">Edit</template>
+                  <template v-else>Save</template>
+                </button>
+                <button class="btn btn-danger" @click="deleteBook(book.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="7">No matching Students found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-</main>
+  </div>
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios';
 
 export default {
-    data() {
-      return {
-        students: [
-          {
-            id: 1,
-            info: 'John Doe, Class 10',
-            bookTitle: 'Book A',
-            duration: '2 weeks',
-            status: 'Borrowed'
-          },
-          {
-            id: 2,
-            info: 'Alice Johnson, Class 12',
-            bookTitle: 'Book B',
-            duration: '3 weeks',
-            status: 'Returned'
-          },
-          // Add more students as needed
-        ]
-      };
-    }
-    // name: 'students',
-    // data() {
-    //     return {
-    //         students: []
-    //     }
-    // },
-    // mounted() {
+  name: 'Books',
+  data() {
+    return {
+      books: [],
+      searchQuery: '',
+      filteredBooks: [],
+    };
+  },
+  mounted() {
+    this.getBooks();
+  },
+  methods: {
+    getBooks() {
+      axios.get("http://127.0.0.1:5208/api/Book")
+        .then(res => {
+          this.books = res.data.map(book => ({ ...book, isEditing: false }));
+          this.filteredBooks = res.data;
+        })
+        .catch(error => {
+          console.error('Error fetching books:', error);
+        });
+    },
+    search() {
+      const query = this.searchQuery.toLowerCase().trim();
+      if (query === '') {
+        this.filteredBooks = this.books;
+        return;
+      }
 
-    //     this.getStudents();
-        // console.log('i am here')
-    // },
-    // methods: {
-    //     getbooks() {
-    //         axios.get('').then(res => {
-    //             this.students = res.data.data
-    //             //   console.log( this.students)
-    //         });
-    //     }
-    // },
-// 	var vm = new Vue({
-// 	 el: '#toolBtns',
-// 	 data: {
-//  		activeBtn:''
-// 	 }
-//  });
-}
+      this.filteredBooks = this.books.filter(book =>
+        book.title.toLowerCase().includes(query) ||
+        book.publicationYear.toString().includes(query) ||
+        book.language.toLowerCase().includes(query) ||
+        book.categoryId.toString().includes(query) ||
+        book.copiesOwned.toString().includes(query)
+      );
+    },
+    resetSearch() {
+      this.searchQuery = '';
+      this.filteredBooks = this.books;
+    },
+    editBook(book) {
+  if (book.isEditing) {
+    axios.put(`http://127.0.0.1:5208/api/Book/${book.id}`, {
+      title: book.title,
+      publicationYear: book.publicationYear,
+      language: book.language,
+      categoryId: book.categoryId,
+      copiesOwned: book.copiesOwned
+     
+    })
+      .then(response => {
+        console.log('Book updated successfully:', response.data);
+        book.isEditing = false;
+      })
+      .catch(error => {
+        console.error('Error updating book:', error);
+      });
+  } else {
+    book.isEditing = true; 
+  }
+},
+    deleteBook(bookId) {
+      axios.delete(`http://127.0.0.1:5208/api/Book/${bookId}`)
+        .then(() => {
+          this.books = this.books.filter(book => book.id !== bookId);
+          this.filteredBooks = this.filteredBooks.filter(book => book.id !== bookId);
+        })
+        .catch(error => {
+          console.error('Error deleting book:', error);
+        });
+    },
+  },
+};
 </script>
 
-<style>
-.active{
-  background-color:red;
+<style scoped>
+.books_section{
+ padding-left: 200px;
 }
+
 </style>
-<!-- 
-
-
-<template>
-    <div>
-      <h2>Student List</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Student ID</th>
-            <th>Student Info</th>
-            <th>Title of the Book</th>
-            <th>Duration</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(student, index) in students" :key="index">
-            <td>{{ student.id }}</td>
-            <td>{{ student.info }}</td>
-            <td>{{ student.bookTitle }}</td>
-            <td>{{ student.duration }}</td>
-            <td>{{ student.status }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        students: [
-          {
-            id: 1,
-            info: 'John Doe, Class 10',
-            bookTitle: 'Book A',
-            duration: '2 weeks',
-            status: 'Borrowed'
-          },
-          {
-            id: 2,
-            info: 'Alice Johnson, Class 12',
-            bookTitle: 'Book B',
-            duration: '3 weeks',
-            status: 'Returned'
-          },
-          // Add more students as needed
-        ]
-      };
-    }
-  };
-  </script> -->
-  
