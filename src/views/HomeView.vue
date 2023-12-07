@@ -24,13 +24,13 @@
             </thead>
             <tbody>
             <tr v-for="(StudentInfo, index) in this.StudentInfo" :key="index">
-              <td>{{ StudentInfo.FirstName  }}</td>
-              <td>{{ StudentInfo.LasyName  }}</td>
-              <td>{{ StudentInfo.Phone  }}</td>
-              <td>{{ StudentInfo.Email  }}</td>
-              <td>{{ StudentInfo.IdCard  }}</td>
-              <td>{{ StudentInfo.Passport   }}</td>
-              <td>{{ StudentInfo.Role  }}</td>
+              <td>{{ StudentInfo.firstName  }}</td>
+              <td>{{ StudentInfo.lastName  }}</td>
+              <td>{{ StudentInfo.phone  }}</td>
+              <td>{{ StudentInfo.email  }}</td>
+              <td>{{ StudentInfo.idCard  }}</td>
+              <td>{{ StudentInfo.passport   }}</td>
+              <td>{{ StudentInfo.role  }}</td>
             </tr>
             </tbody>
           </table>
