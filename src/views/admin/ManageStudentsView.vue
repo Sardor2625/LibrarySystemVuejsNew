@@ -1,52 +1,37 @@
 <template>
-  <div class="container books_section">
-    <div class="card">
+  <div class="container">
+    <div class="card manage_student_div">
       <div class="card-header">
-        <h4>Managestudents</h4>
+        <h4>Manage the students</h4>
       </div>
       <div class="card-body">
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th>Stident ID</th>
+              <th>Student id</th>
               <th>Student Info</th>
               <th>Title of the Book</th>
               <th>Duration</th>
               <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
-          <tbody v-if="filteredBooks.length > 0">
-            <tr v-for="(book, index) in filteredBooks" :key="index">
-              <td>{{ book.id }}</td>
+          <tbody v-if="ManageStudents.length > 0">
+            <tr v-for="(student, index) in ManageStudents" :key="index">
+              <td>{{ student.id }}</td>
+              <td>{{ student.StudentInfo }}</td>
+              <td>{{ student.TitleBook }}</td>
+              <td>{{ student.Duration }}</td>
+              <td>{{ student.Status }}</td>
               <td>
-                <template v-if="!book.isEditing">{{ book.title }}</template>
-                <template v-else><input v-model="book.title" /></template>
-              </td>
-              <td>
-                <template v-if="!book.isEditing">{{ book.publicationYear }}</template>
-                <template v-else><input v-model="book.publicationYear" /></template>
-              </td>
-              <td>
-                <template v-if="!book.isEditing">{{ book.language }}</template>
-                <template v-else><input v-model="book.language" /></template>
-              </td>
-              <td>
-                <template v-if="!book.isEditing">{{ book.categoryId }}</template>
-                <template v-else><input v-model="book.categoryId" /></template>
-              </td>
-              <td>{{ book.copiesOwned }}</td>
-              <td>
-                <button class="btn btn-primary" @click="editBook(book)">
-                  <template v-if="!book.isEditing">Edit</template>
-                  <template v-else>Save</template>
-                </button>
-                <button class="btn btn-danger" @click="deleteBook(book.id)">Delete</button>
+                <button @click="updateStatus(student.id, 'Active')">Active</button>
+                <button @click="updateStatus(student.id, 'Delayed')">Delayed</button>
               </td>
             </tr>
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="7">No matching Students found.</td>
+              <td colspan="6">Loading</td>
             </tr>
           </tbody>
         </table>
@@ -56,88 +41,42 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
-  name: 'Books',
+  name: 'ManageStudents',
   data() {
     return {
-      books: [],
-      searchQuery: '',
-      filteredBooks: [],
-    };
+      ManageStudents: []
+    }
   },
   mounted() {
-    this.getBooks();
+    this.getManageStudents()
   },
   methods: {
-    getBooks() {
-      axios.get("http://127.0.0.1:5208/api/Book")
+    getManageStudents() {
+      axios.get("http://127.0.0.1:5208/api/ManageStudents")
         .then(res => {
-          this.books = res.data.map(book => ({ ...book, isEditing: false }));
-          this.filteredBooks = res.data;
+          this.ManageStudents = res.data;
+          console.log(res.data)
         })
-        .catch(error => {
-          console.error('Error fetching books:', error);
-        });
     },
-    search() {
-      const query = this.searchQuery.toLowerCase().trim();
-      if (query === '') {
-        this.filteredBooks = this.books;
-        return;
-      }
-
-      this.filteredBooks = this.books.filter(book =>
-        book.title.toLowerCase().includes(query) ||
-        book.publicationYear.toString().includes(query) ||
-        book.language.toLowerCase().includes(query) ||
-        book.categoryId.toString().includes(query) ||
-        book.copiesOwned.toString().includes(query)
-      );
-    },
-    resetSearch() {
-      this.searchQuery = '';
-      this.filteredBooks = this.books;
-    },
-    editBook(book) {
-  if (book.isEditing) {
-    axios.put(`http://127.0.0.1:5208/api/Book/${book.id}`, {
-      title: book.title,
-      publicationYear: book.publicationYear,
-      language: book.language,
-      categoryId: book.categoryId,
-      copiesOwned: book.copiesOwned
-     
-    })
-      .then(response => {
-        console.log('Book updated successfully:', response.data);
-        book.isEditing = false;
-      })
-      .catch(error => {
-        console.error('Error updating book:', error);
-      });
-  } else {
-    book.isEditing = true; 
-  }
-},
-    deleteBook(bookId) {
-      axios.delete(`http://127.0.0.1:5208/api/Book/${bookId}`)
-        .then(() => {
-          this.books = this.books.filter(book => book.id !== bookId);
-          this.filteredBooks = this.filteredBooks.filter(book => book.id !== bookId);
+    updateStatus(studentId, newStatus) {
+      axios.put(`http://127.0.0.1:5208/api/ManageStudents/${studentId}`, { Status: newStatus })
+        .then(res => {
+          this.getManageStudents();
+          console.log(`Status updated to ${newStatus} for student ID ${studentId}`);
         })
-        .catch(error => {
-          console.error('Error deleting book:', error);
+        .catch(err => {
+          console.error("Error updating status:", err);
         });
-    },
+    }
   },
-};
+}
 </script>
 
-<style scoped>
-.books_section{
- padding-left: 200px;
+<style>
+.manage_student_div {
+  margin-left: 200px;
 }
-
 </style>
