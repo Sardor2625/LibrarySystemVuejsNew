@@ -3,7 +3,7 @@
       <div class="card student_table">
         <div class="card-header">
           <h4>
-            Student Info
+            Student Infoo
           </h4>
   
         </div>
