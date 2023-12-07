@@ -24,7 +24,6 @@
             </thead>
             <tbody>
             <tr v-for="(StudentInfo, index) in this.StudentInfo" :key="index">
-              <td>{{ StudentInfo.id }}</td>
               <td>{{ StudentInfo.first_name  }}</td>
               <td>{{ StudentInfo.last_name  }}</td>
               <td>{{ StudentInfo.phone  }}</td>
@@ -56,7 +55,7 @@
     },
     methods: {
       getStudentInfo() {
-        axios.get("http://127.0.0.1:5208/api/Book")
+        axios.get("http://localhost:5208/api/StudentInfo")
             .then(res => {
               this.StudentInfo = res.data;
               console.log(res.data)
