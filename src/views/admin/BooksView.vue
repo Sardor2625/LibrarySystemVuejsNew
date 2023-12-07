@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     getBooks() {
-      axios.get("http://127.0.0.1:5208/api/Book")
+      axios.get("http://localhost:5208/api/BookCoontroller")
         .then(res => {
           this.books = res.data.map(book => ({ ...book, isEditing: false }));
           this.filteredBooks = res.data;
@@ -109,7 +109,7 @@ export default {
     },
     editBook(book) {
   if (book.isEditing) {
-    axios.put(`http://127.0.0.1:5208/api/Book/${book.id}`, {
+    axios.put(`http://localhost:5208/api/BookCoontroller/${book.id}`, {
       title: book.title,
       publicationYear: book.publicationYear,
       language: book.language,
@@ -129,7 +129,7 @@ export default {
   }
 },
     deleteBook(bookId) {
-      axios.delete(`http://127.0.0.1:5208/api/Book/${bookId}`)
+      axios.delete(`http://localhost:5208/api/BookCoontroller/${bookId}`)
         .then(() => {
           this.books = this.books.filter(book => book.id !== bookId);
           this.filteredBooks = this.filteredBooks.filter(book => book.id !== bookId);
