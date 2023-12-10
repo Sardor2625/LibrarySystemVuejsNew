@@ -7,6 +7,34 @@
     </div>
   </div>
 </template>
+
+<!-- Avtorizatsiyadan keyin bu logikani ishlatamiz  -->
+<!-- <template>
+  <div class="main-content">
+    <h1>Welcome to the Home Page!</h1>
+    <div v-if="userRole === 'admin'">
+      <h2>Admin Content</h2> -->
+      <!-- Display admin-specific content here -->
+    <!-- </div>
+    <div v-else>
+      <h2>User Content</h2> -->
+      <!-- Display user-specific content here -->
+    <!-- </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    userRole: {
+      type: String,
+      required: true,
+    },
+  },
+};
+</script> -->
+
+
 <script>
 import { Navbar } from '@/components'
 import { Sidebar } from '@/components'
