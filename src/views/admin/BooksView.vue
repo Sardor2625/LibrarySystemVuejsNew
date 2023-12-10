@@ -19,12 +19,12 @@
               <th>Language</th>
               <th>Category ID</th>
               <th>Copies Owned</th>
+              <th>Count</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody v-if="filteredBooks.length > 0">
             <tr v-for="(book, index) in filteredBooks" :key="index">
-              <td>{{ book.id }}</td>
               <td>
                 <template v-if="!book.isEditing">{{ book.title }}</template>
                 <template v-else><input v-model="book.title" /></template>
@@ -41,7 +41,15 @@
                 <template v-if="!book.isEditing">{{ book.categoryId }}</template>
                 <template v-else><input v-model="book.categoryId" /></template>
               </td>
-              <td>{{ book.copiesOwned }}</td>
+              <td>
+                <template v-if="!book.isEditing">{{ book.copiesOwned }}</template>
+                <template v-else><input v-model="book.copiesOwned" /></template>
+              </td>
+              <td>
+                <template v-if="!book.isEditing">{{ book.count }}</template>
+                <template v-else><input v-model="book.count" /></template>
+              </td>
+              
               <td>
                 <button class="btn btn-primary" @click="editBook(book)">
                   <template v-if="!book.isEditing">Edit</template>
@@ -79,7 +87,7 @@ export default {
   },
   methods: {
     getBooks() {
-      axios.get("http://localhost:5208/api/BookCoontroller")
+      axios.get("http://localhost:5208/api/Book")
         .then(res => {
           this.books = res.data.map(book => ({ ...book, isEditing: false }));
           this.filteredBooks = res.data;
@@ -109,7 +117,7 @@ export default {
     },
     editBook(book) {
   if (book.isEditing) {
-    axios.put(`http://localhost:5208/api/BookCoontroller/${book.id}`, {
+    axios.put(`http://localhost:5208/api/Book/${book.id}`, {
       title: book.title,
       publicationYear: book.publicationYear,
       language: book.language,
@@ -129,7 +137,7 @@ export default {
   }
 },
     deleteBook(bookId) {
-      axios.delete(`http://localhost:5208/api/BookCoontroller/${bookId}`)
+      axios.delete(`http://localhost:5208/api/Book/${bookId}`)
         .then(() => {
           this.books = this.books.filter(book => book.id !== bookId);
           this.filteredBooks = this.filteredBooks.filter(book => book.id !== bookId);
