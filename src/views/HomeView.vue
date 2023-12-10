@@ -1,41 +1,4 @@
 <template>
-<<<<<<< HEAD
-    <div class="container">
-      <div class="card student_table">
-        <div class="card-header">
-          <h4>
-            Student Infoo
-          </h4>
-  
-        </div>
-        <div class="card-body ">
-  
-          <table class="table table-bordered">
-            <thead>
-            <tr>
-              <th>First name</th>
-              <th>Last Name</th>
-              <th>Phone</th>
-              <th>Email</th>
-              <th>Id card</th>
-              <th>passport </th>
-              <th>role</th>
-            </tr>
-  
-            </thead>
-            <tbody>
-            <tr v-for="(StudentInfo, index) in this.StudentInfo" :key="index">
-              <td>{{ StudentInfo.firstName  }}</td>
-              <td>{{ StudentInfo.lastName  }}</td>
-              <td>{{ StudentInfo.phone  }}</td>
-              <td>{{ StudentInfo.email  }}</td>
-              <td>{{ StudentInfo.idCard  }}</td>
-              <td>{{ StudentInfo.passport   }}</td>
-              <td>{{ StudentInfo.role  }}</td>
-            </tr>
-            </tbody>
-          </table>
-=======
   <div class="container">
     <div class="card student_table">
       <div class="card-header">
@@ -82,7 +45,7 @@
             </table>
           </div>
 
->>>>>>> 6435794 (Student books update)
+
         </div>
         <!-- end  -->
       </div>
@@ -90,36 +53,9 @@
   </div>
 </template>
   
-<<<<<<< HEAD
-  <script>
-  import axios from 'axios'
-  
-  export default {
-    name: 'StudentInfo',
-    data() {
-      return {
-        StudentInfo: []
-      }
-    },
-    mounted() {
-      this.getStudentInfo()
-    
-    },
-    methods: {
-      getStudentInfo() {
-        axios.get("http://localhost:5208/api/StudentInfo")
-            .then(res => {
-              this.StudentInfo = res.data;
-              console.log(res.data)
-            })
-      }
-    },
-  }
-  </script>
-=======
 <script>
 import axios from 'axios'
->>>>>>> 6435794 (Student books update)
+// >>>>>>> 6435794 (Student books update)
 
 export default {
   name: 'StudentInfo',
@@ -134,7 +70,7 @@ export default {
   },
   methods: {
     getStudentInfo() {
-      axios.get("http://127.0.0.1:5208/api/Book")
+      axios.get("http://localhost:5208/api/StudentInfo")
         .then(res => {
 
           this.StudentInfo = res.data;
