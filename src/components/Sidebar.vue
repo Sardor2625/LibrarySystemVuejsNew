@@ -32,9 +32,9 @@
 				<span class="material-icons">description</span>
 				<span class="text">Books</span>
 			</router-link>
-			<router-link to="/settings" class="button">
+			<router-link to="/studentbooks" class="button">
 				<span class="material-icons">settings</span>
-				<span class="text">Settings</span>
+				<span class="text">Student books</span>
 			</router-link>
 		</div>
 	</aside>
