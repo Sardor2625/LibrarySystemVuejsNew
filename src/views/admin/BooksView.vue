@@ -13,7 +13,6 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Title</th>
               <th>Publication Year</th>
               <th>Language</th>
