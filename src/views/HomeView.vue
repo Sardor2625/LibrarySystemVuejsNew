@@ -47,7 +47,7 @@
 
 
         </div>
-        <!-- endd  -->
+        <!-- end  -->
       </div>
     </div>
   </div>
