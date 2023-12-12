@@ -15,31 +15,31 @@
               <tbody>
                 <tr>
                   <td>First name</td>
-                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.FirstName }}</th>
+                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.firstName }}</th>
                 </tr>
                 <tr>
                   <td>Last name</td>
-                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.LastName }}</th>
+                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.lastName }}</th>
                 </tr>
                 <tr>
                   <td>Phone</td>
-                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.Phone }}</th>
+                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.phone }}</th>
                 </tr>
                 <tr>
                   <td>Email</td>
-                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.Email }}</th>
+                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.email }}</th>
                 </tr>
                 <tr>
                   <td>Id card</td>
-                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.IdCard }}</th>
+                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.idCard }}</th>
                 </tr>
                 <tr>
                   <td>passport</td>
-                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.Passport }}</th>
+                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.passport }}</th>
                 </tr>
                 <tr>
                   <td>role</td>
-                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.Role }}</th>
+                  <th v-for="(StudentInfo, index) in this.StudentInfo" :key="index">{{ StudentInfo.role }}</th>
                 </tr>
               </tbody>
             </table>
