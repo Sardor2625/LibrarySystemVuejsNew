@@ -7,10 +7,10 @@ const AuthServise = {
   login(user){
     return axios.post('/Login/Login', 
         user,
-        // {
-        //   Email: "hishimovanvar@gmail.com",
-        //   Passport: "AC2449746"
-        // },
+        {
+          Email: "hishimovanvar@gmail.com",
+          Password: "AC2449746"
+        },
             {
           headers: {
             'Content-Type': 'application/json'
