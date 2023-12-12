@@ -2,10 +2,9 @@
   <div>
     <div class="main">
       <Navbar />
+      <RouterView />
     </div>
     <div>
-	  <Sidebar/>
-    <RouterView />
 
     </div>
   </div>
@@ -40,11 +39,10 @@ export default {
 
 <script>
 import { Navbar } from '@/components'
-import { Sidebar } from '@/components'
 import { RouterView } from "vue-router"
 
 export default {
-  components: { Navbar,Sidebar}
+  components: { Navbar}
 }
 </script>
 

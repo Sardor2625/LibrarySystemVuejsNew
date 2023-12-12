@@ -10,29 +10,20 @@
 			</button>
 		</div>
 
-		<h3>Admin</h3>
+		<h3>Student</h3>
 		<div class="menu">
-			<router-link to="/admin/adminInfo" class="button">
+			<router-link to="/student/studentInfo" class="button">
 				<span class="material-icons">person</span>
-				<span class="text">Admin Info</span>
+				<span class="text">Student Info</span>
 			</router-link>
 			<router-link to="/contact" class="button">
-				<span class="material-icons">book</span>
+				<span class="material-icons">list</span>
 				<span class="text">Orderedbooks</span>
 			</router-link>	
-			<router-link to="/uploadbooks" class="button">
-				<span class="material-icons">upload</span>
-				<span class="text">Uploadbooks</span>
+			<router-link to="/studentbooks" class="button">
+				<span class="material-icons">book</span>
+				<span class="text">books</span>
 			</router-link>
-			<router-link to="/managestudents" class="button">
-				<span class="material-icons">group</span>
-				<span class="text">Managethestudents</span>
-			</router-link>
-			<router-link to="/books" class="button">
-				<span class="material-icons">description</span>
-				<span class="text">Books</span>
-			</router-link>
-			
 		</div>
 	</aside>
 </template>

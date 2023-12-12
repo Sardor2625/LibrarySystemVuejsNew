@@ -1,8 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { HomeView, RegisterView,LoginView,BooksView,ManageStudentsView,OrderedbooksView,UploadBooksView,studentbooks} from "@/views";
+import adminRoutes from './adminRoutes'
+import studentRoutes from './studentRoutes'
+import { HomeView, RegisterView,LoginView,BooksView,ManageStudentsView,OrderedbooksView,UploadBooksView,studentbooks,} from "@/views";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    ...adminRoutes,
+    ...studentRoutes,
     {
       path: "/",
       name: "home",
@@ -38,11 +42,7 @@ const router = createRouter({
       name: "uploadbooks",
       component: UploadBooksView,
     },
-    {
-      path: "/studentbooks",
-      name: "studentbooks",
-      component: studentbooks,
-    },
+   
   ],
 });
 
