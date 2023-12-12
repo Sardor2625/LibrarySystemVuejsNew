@@ -9,7 +9,7 @@ const AuthServise = {
         user,
         {
           Email: "hishimovanvar@gmail.com",
-          Password: "AC2449746"
+          password: "AC2449746"
         },
             {
           headers: {

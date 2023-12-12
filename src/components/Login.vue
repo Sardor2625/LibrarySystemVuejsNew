@@ -22,44 +22,48 @@
     </main>
 </template>
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 import whitelogo from '../images/logo-white.png'
 import ValidationError from '@/components/ValidationError.vue'
+
 export default {
-    data() {
-        return {
-            whitelogo,
-            email: '',
-            password: '',
-        }
-    },
-    components: {
+  data() {
+    return {
+      whitelogo,
+      email: '',
+      password: '',
+    }
+  },
+  components: {
     ValidationError
- },
- computed: {
- ...mapState({
-    isLoading: state => state.auth.isLoading,
-    validationErrors: state => state.auth.errors
- }),
- },
-    methods: {
-        submitHandler(e) {
-            e.preventDefault()
-            const data = {
-                username: this.username,
-                Email: this.email,
-                Passport: this.password,
-            }   
-            console.log(data);
-            this.$store
-            .dispatch('login',data)
-            .then(user => {
-             console.log('USER', user)
-             this.$router.push({name: 'home'})
-            })
-            .catch(err => console.log('ERROR', err))
-        },
+  },
+  computed: {
+    ...mapState({
+      isLoading: state => state.auth.isLoading,
+      validationErrors: state => state.auth.errors
+    }),
+  },
+  methods: {
+    submitHandler(e) {
+      e.preventDefault()
+      const data = {
+        username: this.username,
+        Email: this.email,
+        Password: this.password,
+      }
+      console.log(data);
+      this.$store.dispatch('login', data)
+        .then(user => {
+          console.log('USER', user);
+          if (user.role === 'admin') {
+            this.$router.push({ name: 'adminDashboard' }); // Redirect to admin dashboard
+          } else {
+            this.$router.push({ name: 'home' }); // Redirect to user dashboard
+          }
+        })
+        .catch(err => console.log('ERROR', err))
     },
+  },
 }
 </script>
 <style>
