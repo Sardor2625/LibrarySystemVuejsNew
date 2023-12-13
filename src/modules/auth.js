@@ -1,53 +1,85 @@
-// auth.js (Vuex module for authentication)
+import { setItem } from "../helpers/persistaneStorage"
+import AuthServise from "../service/auth"
 
 const state = {
+  isLoading: false,
   user: null,
-  isLoggedIn: false,
-};
-
-const getters = {
-  getUser: state => state.user,
-  isLoggedIn: state => state.isLoggedIn,
-};
-
-const actions = {
-  async loginUser({ commit }, userData) {
-    try {
-      // Simulating asynchronous API call for login
-      // Replace this with an actual API call using authService.login(userData)
-      const loggedInUser = await authService.login(userData);
-      
-      // On successful login, update state with user data
-      commit('SET_USER', loggedInUser);
-      commit('SET_LOGGED_IN', true);
-      
-      return loggedInUser;
-    } catch (error) {
-      // Handle login error (e.g., display error message)
-      throw new Error('Login failed. Please check your credentials.');
-    }
-  },
-
-  logoutUser({ commit }) {
-    // Clear user data from state upon logout
-    commit('SET_USER', null);
-    commit('SET_LOGGED_IN', false);
-  },
-};
+  errors: null,
+  isLoggedIn: null,
+}
 
 const mutations = {
-  SET_USER(state, user) {
-    state.user = user;
+  registerStart(state) {
+    state.isLoading = true
+    state.user = null
+    state.errors = null
+    state.isLoggedIn = null
   },
+  registerSuccess(state, payload) {
+    state.isLoading = false
+    state.user = payload
+    state.isLoggedIn = true
+  },
+  registerFailure(state, payload) {
+    state.isLoading = false
+    state.errors = payload.errors
+    state.isLoggedIn = false
+  },
+  loginStart(state) {
+    state.isLoading = true
+    state.user = null
+    state.errors = null
+    state.isLoggedIn = null
+  },
+  loginSuccess(state, payload) {
+    state.isLoading = false
+    state.user = payload
+    state.isLoggedIn = true
+  },
+  loginFailure(state, payload) {
+    state.isLoading = false
+    state.errors = payload.errors
+    state.isLoggedIn = false
+  },
+}
 
-  SET_LOGGED_IN(state, value) {
-    state.isLoggedIn = value;
+const actions = {
+  register(context, user) {
+    return new Promise((resolve,reject)=> {
+      context.commit("registerStart")
+      AuthServise.register(user)
+        .then((response) => {
+          context.commit("registerSuccess", response.data.user)
+          setItem('token', response.data.user.token)
+          resolve(response.data.user)
+        })
+        .catch((error) => {
+          context.commit("registerFailure", error.response.data)
+          reject(error.response.data)
+        })
+    })
   },
-};
+  login(context, user){
+  return new Promise((resolve, reject) => {
+    context.commit('loginStart')
+    console.log("Promise ")
+    console.log(user)
+    AuthServise.login(user)
+    .then(response => {
+      context.commit("loginSuccess", response.data.user)
+      setItem('token', response.data.user.token)
+      resolve(response.data.user)
+    })
+    .catch((error) => {
+      context.commit("loginFailure", error.response.data)
+      reject(error.response.data)
+    })
+  })
+  },
+}
 
 export default {
   state,
-  getters,
-  actions,
   mutations,
-};
+  actions,
+}

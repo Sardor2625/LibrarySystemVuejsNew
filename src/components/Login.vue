@@ -10,9 +10,7 @@
           <h1 class="h3 mb-3 fw-normal">Login</h1>
 
 
-
-          <!-- <ValidationError v-if="validationErrors.email" :message="validationErrors.email" /> -->
-          <!-- <ValidationError v-if="validationErrors.password" :message="validationErrors.password" /> -->
+          <ValidationError v-if="validationErrors" :validationErrors="validationErrors" />
 
           <Input :label="'Email address'" type="'email'" v-model='email' />
           <Input :label="'Password'" type="'password'" v-model='password' />
