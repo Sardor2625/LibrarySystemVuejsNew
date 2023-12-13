@@ -7,10 +7,6 @@ const AuthServise = {
   login(user){
     return axios.post('/Login/Login', 
         user,
-        // {
-        //   Email: "hishimovanvar@gmail.com",
-        //   Passport: "AC2449746"
-        // },
             {
           headers: {
             'Content-Type': 'application/json'
@@ -19,6 +15,16 @@ const AuthServise = {
         
     )
   },
+    getUser(){
+      let user = JSON.parse(localStorage.getItem('user'));
+      console.log(user);
+      return new Promise((resolve, reject) => {
+          if (user != null)
+              resolve(user) ;
+          reject(new Error("Not Found"))
+      })
+      //return axios.get('/user')
+    }
 }
 
 export default AuthServise

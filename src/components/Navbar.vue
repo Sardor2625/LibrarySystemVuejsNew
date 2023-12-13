@@ -3,11 +3,10 @@
     <a class="d-flex align-items-center text-dark text-decoration-none">
       <img :src="logoURL" alt="Vue" style="width: 200px; cursor:pointer;" @click="toHomeHandler" />
     </a>
-
     <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
       <template v-if='isLoggedIn'>
-        <RouterLink :to="{name: 'home'}" class="me-3 py-2 text-dark text-decoration-none">user</RouterLink>
-        
+        <RouterLink :to="{name: 'home'}" class="me-3 py-2 text-dark text-decoration-none">{{currentUser?.role}}</RouterLink>
+        <a href="#" @click="logout">Logout</a>
       </template>
       <template v-if='!isLoggedIn'>
         <a>
@@ -21,8 +20,9 @@
   </div>
 </template>
 <script>
-import {mapState} from 'vuex'
+import {mapGetters, mapState} from 'vuex'
 import logoURL from '../images/kiut_logo.png'
+import {gettersTypes} from "@/modules/types"
 
 
 export default {
@@ -36,10 +36,18 @@ export default {
     user: state => state.auth.user,
     isLoggedIn: state => state.auth.isLoggedIn,
   }),
+    ...mapGetters({
+      currentUser: gettersTypes.currentUser,
+      isLoggedIn: gettersTypes.isLoggedIn,
+      isAnonymous: gettersTypes.isAnonymous
+    })
   },
   methods: {
     toHomeHandler() {
       return this.$router.push({name: 'home'})
+    },
+    logout() {
+      return this.$store.dispatch('logout')
     },
   },
 }

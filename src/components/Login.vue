@@ -47,17 +47,17 @@ export default {
     submitHandler(e) {
       e.preventDefault()
       const data = {
-        username: this.username,
         Email: this.email,
-        Password: this.password,
+        Passport: this.password,
       }
-      console.log(data);
       this.$store.dispatch('login', data)
         .then(user => {
           console.log('USER', user);
-          if (user.role === 'admin') {
+          if (user.role === 'Manager') {
+            console.log("MMM")
             this.$router.push({ name: '/admin/dashboard' }); // Redirect to admin dashboard
           } else {
+            console.log("SSS")
             this.$router.push({ name: '/student/dashboard' }); // Redirect to user dashboard
           }
         })
