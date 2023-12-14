@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     searchBooks() {
-      axios.get('http://your-api-url/books')
+      axios.get('http://localhost:5208/api/Book')
         .then(response => {
           this.books = response.data; 
         })
