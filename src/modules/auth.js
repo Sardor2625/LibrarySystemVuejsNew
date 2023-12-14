@@ -121,7 +121,7 @@ const actions = {
           })
           .catch(() => {
             context.commit('currentUserFailure');
-            router.push({name:"login"})
+            // router.push({name:"login"})
             // this.$router.push({name:"login"})
           })
     })

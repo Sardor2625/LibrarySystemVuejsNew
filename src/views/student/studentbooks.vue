@@ -5,6 +5,7 @@
         <input type="text" class="form-control" placeholder="Search Books" v-model="searchQuery">
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="button" @click="searchBooks">Search</button>
+          <button class="btn btn-outline-primary" type="button" @click="postBooks">Post Books</button>
         </div>
       </div>
 
@@ -50,6 +51,17 @@ export default {
         })
         .catch(error => {
           console.error('Error fetching books:', error);
+        });
+    },
+    postBooks() {
+      axios.post('http://your-api-url/books', this.books)
+        .then(response => {
+          console.log('Books successfully posted:', response.data);
+          // Optionally, you can reset the books array or perform any necessary actions after posting
+          // this.books = [];
+        })
+        .catch(error => {
+          console.error('Error posting books:', error);
         });
     }
   },
