@@ -16,7 +16,7 @@
 				<span class="material-icons">person</span>
 				<span class="text">Admin Info</span>
 			</router-link>
-			<router-link to="/contact" class="button">
+			<router-link to="/orderedbooks" class="button">
 				<span class="material-icons">book</span>
 				<span class="text">Orderedbooks</span>
 			</router-link>	

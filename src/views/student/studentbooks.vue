@@ -5,10 +5,8 @@
         <input type="text" class="form-control" placeholder="Search Books" v-model="searchQuery">
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="button" @click="searchBooks">Search</button>
-          <button class="btn btn-outline-primary" type="button" @click="postBooks">Post Books</button>
         </div>
       </div>
-
       <div class="row">
         <div v-for="book in filteredBooks" :key="book.id" class="col-md-3 mb-4">
           <div class="card">
@@ -16,7 +14,7 @@
             <div class="card-body">
               <h5 class="card-title">{{ book.title }}</h5>
               <p class="card-text">{{ book.author }}</p>
-              <button class="btn btn-success btn-block">Book</button>
+              <button class="btn btn-success btn-block" type="button" @click="postBooks">Post Book</button>
             </div>
           </div>
         </div>
