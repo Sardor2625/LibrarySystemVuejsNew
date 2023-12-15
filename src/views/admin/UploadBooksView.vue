@@ -78,6 +78,10 @@ export default {
 		}
 	},
 	methods: {
+		getAuthToken() {
+      // Replace this with your actual logic to get the token
+      return this.$state.token
+    },
 		uploadImage(e) {
 			// console.log("123");
 			const image = e.target.files[0];
@@ -137,6 +141,7 @@ console.log(this.uploadData);
         // data: JSON.stringify(this.uploadData),
         data: this.uploadData,
         config: { headers: {
+			'Authorization': `Bearer ${authToken}`,
             // 'Accept': 'application/json'
             // /*'Content-Type': 'multipart/form-data'*/
             'Content-Type': 'application/json'
