@@ -31,7 +31,8 @@ const mutations = {
   },
   registerSuccess(state, payload) {
     state.isLoading = false
-    state.user = payload
+    state.user = payload.user
+    state.token = payload.token
     state.isLoggedIn = true
   },
   registerFailure(state, payload) {
@@ -98,7 +99,7 @@ const actions = {
       AuthServise.login(user)
           .then(response => {
             console.log(response.data)
-            context.commit('registerSuccess', response.data.user)
+            context.commit('registerSuccess', {user: response.data.user, token:response.data.token})
             localStorage.setItem("user", JSON.stringify(response.data.user))
             setItem('token', response.data.token)
             resolve(response.data.user)

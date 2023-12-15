@@ -1,14 +1,15 @@
 <template >
     <div>
-        <SidebarStudent/>
+        <SidebarStudent />
+        <RouterView />
     </div>
 </template>
 <script>
 import SidebarStudent from '../SidebarStudent.vue';
+import { RouterView } from "vue-router"
+
 export default {
-    components: {SidebarStudent}
+    components: { SidebarStudent }
 }
 </script>
-<style >
-    
-</style>
+<style ></style>

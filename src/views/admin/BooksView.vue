@@ -85,8 +85,18 @@ export default {
     this.getBooks();
   },
   methods: {
+    getAuthToken() {
+      // Replace this with your actual logic to get the token
+      return this.$state.token
+    },
     getBooks() {
-      axios.get("http://localhost:5208/api/Book")
+      const authToken = this.getAuthToken();
+      
+      axios.get("http://localhost:5208/api/Book",{
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
+    })
         .then(res => {
           this.books = res.data.map(book => ({ ...book, isEditing: false }));
           this.filteredBooks = res.data;
@@ -115,6 +125,7 @@ export default {
       this.filteredBooks = this.books;
     },
     editBook(book) {
+      const authToken = this.getAuthToken()
   if (book.isEditing) {
     axios.put(`http://localhost:5208/api/Book/${book.id}`, {
       title: book.title,
@@ -123,6 +134,10 @@ export default {
       categoryId: book.categoryId,
       copiesOwned: book.copiesOwned
      
+    },{
+      headers: {
+        'Authorization':`Bearer ${authToken}`,
+      },
     })
       .then(response => {
         console.log('Book updated successfully:', response.data);
@@ -136,7 +151,12 @@ export default {
   }
 },
     deleteBook(bookId) {
-      axios.delete(`http://localhost:5208/api/Book/${bookId}`)
+      const authToken = this.getAuthToken();
+      axios.delete(`http://localhost:5208/api/Book/${bookId}`,{
+        headers: {
+       'Authorization':`Bearer ${authToken},`
+        },
+      })
         .then(() => {
           this.books = this.books.filter(book => book.id !== bookId);
           this.filteredBooks = this.filteredBooks.filter(book => book.id !== bookId);

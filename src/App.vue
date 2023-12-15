@@ -1,5 +1,9 @@
 <template >
   <div>
+    <!-- <div class="sidebar">
+      <Sidebar/>
+    </div> -->
+    
     <div class="main">
       <Navbar />
       <RouterView />

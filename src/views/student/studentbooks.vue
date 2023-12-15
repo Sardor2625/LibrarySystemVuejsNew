@@ -14,7 +14,10 @@
             <div class="card-body">
               <h5 class="card-title">{{ book.title }}</h5>
               <p class="card-text">{{ book.author }}</p>
-              <button class="btn btn-success btn-block" type="button" @click="postBooks">Post Book</button>
+              <div class="card-publicationYear">
+                <input type="text" v-model="uploadData.Publicationyear" class="form-control" placeholder="Publication Year">
+              </div>
+              <button class="btn btn-success btn-block" type="button" @click="postBooks(book)">Post Book</button>
             </div>
           </div>
         </div>
@@ -30,7 +33,10 @@ export default {
   data() {
     return {
       books: [],
-      searchQuery: ''
+      searchQuery: '',
+      uploadData: {
+        Publicationyear: '' 
+      }
     };
   },
   computed: {
@@ -51,15 +57,22 @@ export default {
           console.error('Error fetching books:', error);
         });
     },
-    postBooks() {
-      axios.post('http://your-api-url/books', this.books)
+    postBooks(book) {
+      const dataToSend = {
+        title: book.title,
+        author: book.author,
+        image: book.image,
+        publicationYear: this.uploadData.Publicationyear 
+      };
+
+      axios.post('http://localhost:5208/order-book', dataToSend)
         .then(response => {
-          console.log('Books successfully posted:', response.data);
-          // Optionally, you can reset the books array or perform any necessary actions after posting
-          // this.books = [];
+          console.log('Book successfully posted:', response.data);
+          // Optionally, you can reset the input fields or perform any necessary actions after posting
+          // this.uploadData.Publicationyear = '';
         })
         .catch(error => {
-          console.error('Error posting books:', error);
+          console.error('Error posting book:', error);
         });
     }
   },

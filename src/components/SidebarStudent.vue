@@ -16,7 +16,7 @@
 				<span class="material-icons">person</span>
 				<span class="text">Student Info</span>
 			</router-link>
-			<router-link to="/contact" class="button">
+			<router-link to="/studentorderedbooks" class="button">
 				<span class="material-icons">list</span>
 				<span class="text">Orderedbooks</span>
 			</router-link>	
@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+// import { ref } from 'vue'
 // import logoURL from '../assets/logo.png'
 
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true")

@@ -1,40 +1,81 @@
 <template>
-    <div>
-      <h2>Ordered Books</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Book ID</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Order Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="order in orderedBooks" :key="order.bookID">
-            <td>{{ order.bookID }}</td>
-            <td>{{ order.title }}</td>
-            <td>{{ order.author }}</td>
-            <td>{{ order.orderDate }}</td>
-            <td>{{ order.status }}</td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="container">
+    <div class="card manage_student_div">
+      <div class="card-header">
+        <h4>Ordered Books</h4>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Student Info</th>
+              <th>Taking Date</th>
+              <th>Returning Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody v-if="OrderedBooks.length > 0">
+            <tr v-for="(book, index) in OrderedBooks" :key="index">
+              <td>{{ book.title }}</td>
+              <td>{{ book.StudentInfo }}</td>
+              <td>{{ book.TakingDate }}</td>
+              <td>{{ book.ReturningDate }}</td>
+              <td>{{ book.action }}</td>
+              <td>
+                <button @click="updateStatus(BookId, 'Active')">Active</button>
+                <button @click="updateStatus(bookId, 'Delayed')">Delayed</button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="6">Loading</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        orderedBooks: [
-          { bookID: 1, title: 'Book A', author: 'Author A', orderDate: '2023-11-01', status: 'Pending' },
-          { bookID: 2, title: 'Book B', author: 'Author B', orderDate: '2023-11-05', status: 'Delivered' },
-          // Add more ordered books as needed
-        ]
-      };
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'OrderedBooks',
+  data() {
+    return {
+      OrderedBooks: []
     }
-  };
-  </script>
-  
+  },
+  mounted() {
+    this.getOrderedBooks()
+  },
+  methods: {
+    getOrderedBooks() {
+      axios.get("http://127.0.0.1:5208/api/OrderedBooks")
+        .then(res => {
+          this.OrderedBooks = res.data;
+          console.log(res.data)
+        })
+    },
+    updateStatus(bookId, newStatus) {
+      axios.put(`http://127.0.0.1:5208/api/OrderedBooks/${bookId}`, { Status: newStatus })
+        .then(res => {
+          this.getOrderedBooks();
+          console.log(`Status updated to ${newStatus} for student ID ${bookId}`);
+        })
+        .catch(err => {
+          console.error("Error updating status:", err);
+        });
+    }
+  },
+}
+</script>
+
+<style>
+.manage_student_div {
+  margin-left: 200px;
+}
+</style>
