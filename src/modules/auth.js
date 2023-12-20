@@ -100,7 +100,7 @@ const actions = {
           .then(response => {
             console.log(response.data)
             context.commit('registerSuccess', {user: response.data.user, token:response.data.token})
-            localStorage.setItem("user", JSON.stringify(response.data.user))
+            localStorage.setItem("user", response.data.user)
             setItem('token', response.data.token)
             resolve(response.data.user)
           })

@@ -1,4 +1,5 @@
 <template>
+  <Sidebar/>
   <div class="container books_section">
     <div class="card">
       <div class="card-header">
@@ -71,9 +72,11 @@
 
 <script>
 import axios from 'axios';
+import {Sidebar} from "@/components";
 
 export default {
   name: 'Books',
+  components: {Sidebar},
   data() {
     return {
       books: [],
@@ -87,7 +90,7 @@ export default {
   methods: {
     getAuthToken() {
       // Replace this with your actual logic to get the token
-      return this.$state.token
+      return localStorage.getItem('token')
     },
     getBooks() {
       const authToken = this.getAuthToken();

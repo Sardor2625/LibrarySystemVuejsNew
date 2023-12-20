@@ -1,4 +1,5 @@
 <template>
+  <Sidebar/>
 	<main id="Admin-page">
 		<div class="container upload_books_page">
 			<div class="border border-dark rounded uploadbookmain_div">
@@ -61,9 +62,11 @@
 
 
 import axios from "axios";
+import {Sidebar} from "@/components";
 
 export default {
 	name: 'imageUpload',
+  components: {Sidebar},
 	data() {
 		return {
 			previewImage: null,
@@ -141,9 +144,9 @@ console.log(this.uploadData);
         // data: JSON.stringify(this.uploadData),
         data: this.uploadData,
         config: { headers: {
-			'Authorization': `Bearer ${authToken}`,
+			'Authorization': `Bearer ${localStorage.getItem('token')}`,
             // 'Accept': 'application/json'
-            // /*'Content-Type': 'multipart/form-data'*/
+            /*'Content-Type': 'multipart/form-data'*/
             'Content-Type': 'application/json'
           }}
       })

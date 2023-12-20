@@ -1,4 +1,5 @@
 <template>
+  <Sidebar/>
     <div class="container">
       <div class="card student_table">
         <div class="card-header">
@@ -55,10 +56,12 @@
     
   <script>
   import axios from 'axios'
+  import {Sidebar} from "@/components";
   // >>>>>>> 6435794 (Student books update)
   
   export default {
     name: 'StudentInfo',
+    components: {Sidebar},
     data() {
       return {
         StudentInfo: []
